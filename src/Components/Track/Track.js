@@ -5,11 +5,12 @@ export class Track extends React.Component {
   constructor(props) {
     super(props);
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
   // This render method is not finished !!!!
   renderAction() {
     if (this.props.isRemoval) {
-      return <a className="Track-action">-</a>;
+      return <a onClick={this.removeTrack} className="Track-action">-</a>;
     } else {
       return <a onClick={this.addTrack} className="Track-action">+</a>;;
     }
@@ -17,6 +18,10 @@ export class Track extends React.Component {
 
   addTrack() {
     this.props.onAdd(this.props.track);
+  }
+
+  removeTrack() {
+    this.props.onRemove(this.props.track);
   }
 
   render() {

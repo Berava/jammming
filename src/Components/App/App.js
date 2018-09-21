@@ -39,14 +39,32 @@ export class App extends React.Component {
       ]
     }
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
 
+  // addTrack method that add a song from the results to the user's custom playlist
   addTrack(track) {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
     } else {
       this.state.playlistTracks.push(track);
-      this.setState({ playlistTracks: this.state.playlistTracks });
+      this.setState({
+        playlistTracks: this.state.playlistTracks
+      });
+    }
+  }
+
+  // remove method that removes a song from a user's custom playlist
+  removeTrack(track) {
+    const index = this.state.playlistTracks.indexOf(track);
+    if (index !== -1)
+    {
+      this.state.playlistTracks.splice(index, 1);
+      this.setState( {
+        playlistTracks: this.state.playlistTracks
+      });
+    } else {
+      return;
     }
   }
 
@@ -58,7 +76,7 @@ export class App extends React.Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
-            <Playlist playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+            <Playlist onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
