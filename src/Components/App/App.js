@@ -41,6 +41,7 @@ export class App extends React.Component {
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.savePlaylist = this.savePlaylist.bind(this);
   }
 
   // method that add a song from the results to the user's custom playlist
@@ -76,6 +77,17 @@ export class App extends React.Component {
     });
   }
 
+  // TODO: A TESTER
+  // TODO: In a later step, you will pass the trackURIs array and playlistName to a method that will save the user's playlist to their account.
+  // method to save the custom playlist
+  savePlaylist() {
+    const trackURIs = [];
+    this.state.playlistTracks.forEach(function(savedTrack) {
+      trackURIs.push(savedTrack.uri);
+    });
+    return trackURIs;
+  }
+
   render() {
     return (
       <div>
@@ -84,7 +96,7 @@ export class App extends React.Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
-            <Playlist onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+            <Playlist onSave={this.savePlaylist} onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
