@@ -42,6 +42,7 @@ export class App extends React.Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
+    this.search = this.search.bind(this);
   }
 
   // method that add a song from the results to the user's custom playlist
@@ -88,12 +89,17 @@ export class App extends React.Component {
     return trackURIs;
   }
 
+  // method to update the searchResults parameter
+  search(search) {
+    console.log(search);
+  }
+
   render() {
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar />
+          <SearchBar onSearch={this.search} />
           <div className="App-playlist">
             <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
             <Playlist onSave={this.savePlaylist} onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
