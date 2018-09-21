@@ -40,9 +40,10 @@ export class App extends React.Component {
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
+    this.updatePlaylistName = this.updatePlaylistName.bind(this);
   }
 
-  // addTrack method that add a song from the results to the user's custom playlist
+  // method that add a song from the results to the user's custom playlist
   addTrack(track) {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
@@ -54,18 +55,25 @@ export class App extends React.Component {
     }
   }
 
-  // remove method that removes a song from a user's custom playlist
+  // method that removes a song from a user's custom playlist
   removeTrack(track) {
     const index = this.state.playlistTracks.indexOf(track);
     if (index !== -1)
     {
       this.state.playlistTracks.splice(index, 1);
-      this.setState( {
+      this.setState({
         playlistTracks: this.state.playlistTracks
       });
     } else {
       return;
     }
+  }
+
+  // method that change the name of the custom playlist
+  updatePlaylistName (name) {
+    this.setState({
+      playlistName: name
+    });
   }
 
   render() {
@@ -76,7 +84,7 @@ export class App extends React.Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults} />
-            <Playlist onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+            <Playlist onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
