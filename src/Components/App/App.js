@@ -53,15 +53,14 @@ export class App extends React.Component {
     });
   }
 
-  // TODO: A TESTER
-  // TODO: In a later step, you will pass the trackURIs array and playlistName to a method that will save the user's playlist to their account.
-  // method to save the custom playlist
   savePlaylist() {
-    const trackURIs = [];
-    this.state.playlistTracks.forEach(function(savedTrack) {
-      trackURIs.push(savedTrack.uri);
+    let trackURIs = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+      this.setState({
+      playlistName: "New Playlist",
+      playlistTracks: []
     });
-    return trackURIs;
+  });
   }
 
   // method to update the searchResults parameter
