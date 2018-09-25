@@ -10,7 +10,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       searchResults: [],
-      playlistName: 'Coding',
+      playlistName: '',
       playlistTracks: []
     }
     this.addTrack = this.addTrack.bind(this);
@@ -53,6 +53,7 @@ export class App extends React.Component {
     });
   }
 
+  // method that save the user custom playlist
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
@@ -84,7 +85,7 @@ export class App extends React.Component {
             onSave={this.savePlaylist}
             onNameChange={this.updatePlaylistName}
             onRemove={this.removeTrack}
-            playlistname={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+            playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
