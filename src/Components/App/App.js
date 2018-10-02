@@ -4,6 +4,7 @@ import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchResults } from '../SearchResults/SearchResults';
 import { Playlist } from '../Playlist/Playlist';
 import Spotify from '../../util/Spotify';
+import {Header} from '../Header/Header';
 
 export class App extends React.Component {
   constructor(props) {
@@ -11,13 +12,15 @@ export class App extends React.Component {
     this.state = {
       searchResults: [],
       playlistName: '',
-      playlistTracks: []
+      playlistTracks: [],
+      isLoggedIn: false
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.connect = this.connect.bind(this);
   }
 
   // method that add a song from the results to the user's custom playlist
@@ -25,9 +28,10 @@ export class App extends React.Component {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
     } else {
-      this.state.playlistTracks.push(track);
+      let newState = this.state.playlistTracks.slice();
+      newState.push(track);
       this.setState({
-        playlistTracks: this.state.playlistTracks
+        playlistTracks: newState
       });
     }
   }
@@ -37,9 +41,10 @@ export class App extends React.Component {
     const index = this.state.playlistTracks.indexOf(track);
     if (index !== -1)
     {
-      this.state.playlistTracks.splice(index, 1);
+      let newState = this.state.playlistTracks.slice();
+      newState.splice(index, 1);
       this.setState({
-        playlistTracks: this.state.playlistTracks
+        playlistTracks: newState
       });
     } else {
       return;
@@ -67,14 +72,24 @@ export class App extends React.Component {
   // method to update the searchResults parameter
   search(searchTerm) {
     Spotify.search(searchTerm).then(searchResults => {
-        this.setState({searchResults: searchResults});
+        this.setState({
+          searchResults: searchResults,
+          isLoggedIn: true});
+    });
+  }
+
+  // method to connect to Spotify
+  connect() {
+    Spotify.getAccessToken();
+    this.setState({
+      isLoggedIn: true
     });
   }
 
   render() {
     return (
       <div>
-        <h1>Ja<span className="highlight">mmm</span>ing</h1>
+        <Header isLoggedIn={this.state.isLoggedIn} onConnect={this.connect} />
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">

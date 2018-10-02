@@ -1,6 +1,7 @@
 // empty variable that will host the user's access token
 let usersAccessToken = '';
 const applicationClientId = 'client_id=2777578f0d324246884f806ef3a8ed43';
+// const redirectUri = '&redirect_uri=http://localhost:3000/';
 const redirectUri = '&redirect_uri=http://localhost:3000/';
 
 
@@ -23,7 +24,7 @@ const Spotify = {
   },
 
   async search(searchTerm) {
-    let token = Spotify.getAccessToken();
+    let token = this.getAccessToken();
     let headersObj = {
       headers: {Authorization: `Bearer ${token}`}
     };
